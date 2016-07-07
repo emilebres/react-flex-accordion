@@ -2,7 +2,7 @@ import test from 'tape'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-import {Accordion, AccordionHeader, AccordionPanel} from './FlexAccordion'
+import {Accordion, AccordionHeader, AccordionPanel, validateAccordionChildren} from './FlexAccordion'
 
 test('self closing accordion renders with no children', t => {
   const wrapper = shallow(<Accordion />)
@@ -11,13 +11,19 @@ test('self closing accordion renders with no children', t => {
 })
 
 test('accordion children must be either headers or panels', t => {
-  t.throws(shallow(<Accordion>foo</Accordion>))
+  const error = (children, type) => {
+    t.true(validateAccordionChildren(children, 'Accordion') instanceof Error, `detect an incorrect ${type}`)
+  }
+  error('foo', 'string')
+  error(<div>bar</div>, 'div')
+  const Foo = () => <span>bar</span>
+  error(<Foo />, 'custom component')
   t.end()
 })
 
 test('accordion with one item', t => {
   const wrapper = shallow(
-    <Accordion>
+    <Accordion opened={{0: true}}>
       <AccordionHeader id={0}>
         Header0
       </AccordionHeader>

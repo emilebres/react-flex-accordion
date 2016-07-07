@@ -1,8 +1,10 @@
 import React from 'react'
 
-// import {Accordion} from 'module'
+import {Accordion, AccordionHeader, AccordionPanel} from '../FlexAccordion'
 
 export default () => (
-  // <Accordion>toto</Accordion>
-  <div>tuti</div>
+  <Accordion opened={{0: true}}>
+    <AccordionHeader id={0}>Header0</AccordionHeader>
+    <AccordionPanel id={0}>Panel0</AccordionPanel>
+  </Accordion>
 )
