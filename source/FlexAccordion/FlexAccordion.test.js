@@ -21,6 +21,60 @@ test('accordion children must be either headers or panels', t => {
   t.end()
 })
 
+test('accordion children must have matched ids', t => {
+  const error = (accordion, message) => {
+    t.true(validateAccordionChildren(accordion.props.children, 'Accordion') instanceof Error, message)
+  }
+  error(
+    <Accordion>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+    </Accordion>,
+    'two headers cannot have the same id')
+  error(
+    <Accordion>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+    </Accordion>,
+    'two panels cannot have the same id')
+  error(
+    <Accordion>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+    </Accordion>,
+    'header must have panel with same id')
+  error(
+    <Accordion>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={1}>
+        Panel0
+      </AccordionPanel>
+    </Accordion>,
+    'panel must have header with same ids')
+  error(
+    <Accordion>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={1}>
+        Panel0
+      </AccordionPanel>
+    </Accordion>,
+    'header and panel must have matched ids')
+  t.end()
+})
+
 test('accordion with one item', t => {
   const wrapper = shallow(
     <Accordion opened={{0: true}}>
@@ -67,6 +121,50 @@ test('accordion with one closed item', t => {
     </Accordion>
   )
   t.equal(wrapper.find(AccordionPanel).length, 0, 'panel is not present')
+  t.end()
+})
+
+test('accordion with two opened items', t => {
+  const wrapper = shallow(
+    <Accordion opened={{0: true, 1: true}}>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+      <AccordionHeader id={1}>
+        Header1
+      </AccordionHeader>
+      <AccordionPanel id={1}>
+        Panel1
+      </AccordionPanel>
+    </Accordion>
+  )
+  t.equal(wrapper.find(AccordionHeader).length, 2, 'headers are present')
+  t.equal(wrapper.find(AccordionPanel).length, 2, 'panels are present')
+  t.end()
+})
+
+test('accordion with one opened item and one closed item', t => {
+  const wrapper = shallow(
+    <Accordion opened={{0: true}}>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+      <AccordionHeader id={1}>
+        Header1
+      </AccordionHeader>
+      <AccordionPanel id={1}>
+        Panel1
+      </AccordionPanel>
+    </Accordion>
+  )
+  t.equal(wrapper.find(AccordionHeader).length, 2, 'headers are present')
+  t.equal(wrapper.find(AccordionPanel).length, 1, 'one panel is present')
   t.end()
 })
 
