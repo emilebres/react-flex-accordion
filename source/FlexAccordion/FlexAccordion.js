@@ -74,10 +74,17 @@ export const AccordionHeader = ({children, id}) => (
     {children}
   </div>
 )
-AccordionHeader.propTypes = { id: PropTypes.number.isRequired }
+AccordionHeader.propTypes = { id: PropTypes.oneOfType([
+  PropTypes.number,
+  PropTypes.string
+]).isRequired }
 
 export const AccordionPanel = ({children}) => (
   <div>
     {children}
   </div>
 )
+AccordionHeader.propTypes = { id: PropTypes.oneOfType([
+  PropTypes.number,
+  PropTypes.string
+]).isRequired }

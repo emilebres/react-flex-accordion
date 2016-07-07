@@ -69,3 +69,25 @@ test('accordion with one closed item', t => {
   t.equal(wrapper.find(AccordionPanel).length, 0, 'panel is not present')
   t.end()
 })
+
+test('accordion with numbers and strings as id', t => {
+  const wrapper = shallow(
+    <Accordion opened={{foo: true}}>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+      <AccordionHeader id={'foo'}>
+        Header foo
+      </AccordionHeader>
+      <AccordionPanel id={'foo'}>
+        Panel foo
+      </AccordionPanel>
+    </Accordion>
+  )
+  t.equal(wrapper.find(AccordionHeader).length, 2, 'headers are present')
+  t.equal(wrapper.find(AccordionPanel).length, 1, 'closed panel is not present')
+  t.end()
+})
