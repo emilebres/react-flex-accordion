@@ -53,6 +53,10 @@
     "parser": "babel-eslint"
   },
   "nyc": {
+    "exclude": [
+      "**/*.test.js",
+      "source/utils.js"
+    ],
     "require": [
       "babel-register"
     ],
