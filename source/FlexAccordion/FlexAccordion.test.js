@@ -209,3 +209,20 @@ test('click on a header calls onChange prop', t => {
   t.equal(i, 1, 'onChange has been called once')
   t.end()
 })
+
+test('click a disabled header does not call onChange prop', t => {
+  let i = 0
+  const wrapper = mount(
+    <Accordion opened={{0: true}} onChange={() => { i++ }}>
+      <AccordionHeader id={0} disabled>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+    </Accordion>
+  )
+  wrapper.find(AccordionHeader).simulate('click')
+  t.equal(i, 0, 'onChange has not been called')
+  t.end()
+})

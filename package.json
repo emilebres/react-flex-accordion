@@ -56,7 +56,7 @@
   "nyc": {
     "exclude": [
       "**/*.test.js",
-      "source/utils.js"
+      "source/utils"
     ],
     "require": [
       "babel-register"

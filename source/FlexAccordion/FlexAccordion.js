@@ -79,8 +79,8 @@ const elementType = (component) => {
   return component.type.name || component.type
 }
 
-export const AccordionHeader = ({children, id, onChange}) => (
-  <div onClick={() => onChange(id)}>
+export const AccordionHeader = ({children, id, onChange, disabled}) => (
+  <div onClick={() => disabled ? null : onChange(id)}>
     {children}
   </div>
 )
