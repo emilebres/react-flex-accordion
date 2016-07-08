@@ -4,10 +4,11 @@
   "description": "Flex accordion component in React",
   "main": "index.js",
   "scripts": {
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "standard",
     "start": "cross-env NODE_ENV=development webpack-dev-server --env.dev --config webpack.config.babel.js",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "cross-env NODE_ENV=test babel-tape-runner 'source/**/*.test.js' | tap-difflet",
+    "test:unit": "cross-env NODE_ENV=test nyc -s babel-tape-runner 'source/**/*.test.js' | tap-difflet",
     "watch": "watch 'clear && npm run test -s' source"
   },
   "keywords": [
@@ -17,6 +18,7 @@
   ],
   "author": "Emile Bres",
   "license": "ISC",
+  "repository": "https://github.com/emilebres/react-flex-accordion",
   "dependencies": {
     "react": "^15.2.0",
     "react-dom": "^15.2.0"
@@ -25,6 +27,7 @@
     "babel-core": "^6.10.4",
     "babel-eslint": "^6.1.0",
     "babel-loader": "^6.2.4",
+    "babel-plugin-istanbul": "^1.0.2",
     "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
@@ -33,9 +36,11 @@
     "babel-preset-react": "^6.11.1",
     "babel-register": "^6.9.0",
     "babel-tape-runner": "^2.0.1",
+    "codecov": "^1.0.1",
     "cross-env": "^1.0.8",
-    "enzyme": "^2.3.0",
+    "enzyme": "^2.4.0",
     "html-webpack-plugin": "^2.22.0",
+    "nyc": "^6.6.1",
     "react-addons-test-utils": "^15.2.0",
     "react-hot-loader": "^3.0.0-beta.2",
     "standard": "^7.1.2",
@@ -47,5 +52,15 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "nyc": {
+    "include": [
+      "source/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }
