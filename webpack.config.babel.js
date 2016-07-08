@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = function (env) {
   return (
     {
-      devtool: env.dev ? 'cheap-module-eval-source-map' : 'hidden-source-map',
+      devtool: env.dev ? 'source-map' : 'hidden-source-map',
 
       entry: [
         'react-hot-loader/patch',

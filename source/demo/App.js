@@ -1,14 +1,14 @@
 import React from 'react'
 
-import {Accordion, AccordionHeader} from '../FlexAccordion'
+import {Accordion, AccordionHeader, AccordionPanel} from '../FlexAccordion'
 
 export default () => (
-  <Accordion>
-    <AccordionHeader id={0}>
+  <Accordion opened={{tt: true}} onChange={(id) => console.log(id)}>
+    <AccordionHeader id='tt'>
       Header0
     </AccordionHeader>
-    <AccordionHeader id={0}>
-      Header0
-    </AccordionHeader>
+    <AccordionPanel id='tt'>
+      Panel0
+    </AccordionPanel>
   </Accordion>
 )

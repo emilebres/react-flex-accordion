@@ -1,10 +1,12 @@
-import React, {PropTypes, Children} from 'react'
+import React, {PropTypes, Children, cloneElement} from 'react'
 
 import {intersectionArrays, arraysEqual} from '../utils'
 
 export const Accordion = ({opened = {}, onChange, children}) => {
   const array = Children.toArray(children)
-  const headers = array.filter(child => elementType(child) === AccordionHeader.name)
+  const headers = array
+    .filter(child => elementType(child) === AccordionHeader.name)
+    .map(header => cloneElement(header, {onChange}))
   const openedPanels = array
     .filter(child => elementType(child) === AccordionPanel.name)
     .filter(panel => opened[panel.props.id])
@@ -46,22 +48,22 @@ const areAccordionItems = (children, acceptedTypes, accordionName) => {
 
 const matchingAccordionItems = (children, acceptedTypes, accordionName) => {
   let error
-  const ids = acceptedTypes.reduce((ids, type) => ({...ids, [type]: new Set()}), {})
+  const ids = new Map(acceptedTypes.map(type => [type, new Set()]))
   Children.forEach(children, child => {
     if (error) return
     const type = elementType(child)
     const id = child.props.id
-    if (['string', 'number'].indexOf(typeof id)) {
-      if (ids[type].has(id)) {
+    if (['string', 'number'].indexOf(typeof id) !== -1) {
+      if (ids.get(type).has(id)) {
         error = new Error(
           `Component ${accordionName} has duplicate ${type} children with the same id (${id}). Ids must be unique.`
         )
       } else {
-        ids[type].add(id)
+        ids.get(type).add(id)
       }
     }
   })
-  const idsByTypes = Object.keys(ids).map(type => ids[type].entries())
+  const idsByTypes = acceptedTypes.map(type => [...ids.get(type)])
   if (!arraysEqual(intersectionArrays(...idsByTypes), idsByTypes[0])) {
     error = new Error(
       `The ids of the children of component ${accordionName} are not matched. There must be a component with the same id for each of the following types: ${acceptedTypes.join(', ')}`
@@ -77,8 +79,8 @@ const elementType = (component) => {
   return component.type.name || component.type
 }
 
-export const AccordionHeader = ({children, id}) => (
-  <div>
+export const AccordionHeader = ({children, id, onChange}) => (
+  <div onClick={() => onChange(id)}>
     {children}
   </div>
 )
@@ -87,7 +89,7 @@ AccordionHeader.propTypes = { id: PropTypes.oneOfType([
   PropTypes.string
 ]).isRequired }
 
-export const AccordionPanel = ({children}) => (
+export const AccordionPanel = ({children, id}) => (
   <div>
     {children}
   </div>

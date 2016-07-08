@@ -1,6 +1,9 @@
+import {setupDom} from '../utils/jsdomSetup'
+setupDom()
+
 import test from 'tape'
 import React from 'react'
-import {shallow} from 'enzyme'
+import {shallow, mount} from 'enzyme'
 
 import {Accordion, AccordionHeader, AccordionPanel, validateAccordionChildren} from './FlexAccordion'
 
@@ -187,5 +190,22 @@ test('accordion with numbers and strings as id', t => {
   )
   t.equal(wrapper.find(AccordionHeader).length, 2, 'headers are present')
   t.equal(wrapper.find(AccordionPanel).length, 1, 'closed panel is not present')
+  t.end()
+})
+
+test('click on a header calls onChange prop', t => {
+  let i = 0
+  const wrapper = mount(
+    <Accordion opened={{0: true}} onChange={() => { i++ }}>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+    </Accordion>
+  )
+  wrapper.find(AccordionHeader).simulate('click')
+  t.equal(i, 1, 'onChange has been called once')
   t.end()
 })
