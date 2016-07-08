@@ -2,7 +2,7 @@ import React, {PropTypes, Children, cloneElement} from 'react'
 
 import {intersectionArrays, arraysEqual} from '../utils'
 
-export const Accordion = ({opened = {}, onChange, children}) => {
+export const Accordion = ({opened = {}, onChange = () => null, children}) => {
   const array = Children.toArray(children)
   const headers = array
     .filter(child => elementType(child) === AccordionHeader.name)
@@ -84,17 +84,26 @@ export const AccordionHeader = ({children, id, onChange, disabled}) => (
     {children}
   </div>
 )
-AccordionHeader.propTypes = { id: PropTypes.oneOfType([
-  PropTypes.number,
-  PropTypes.string
-]).isRequired }
+AccordionHeader.propTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  disabled: PropTypes.bool
+}
 
-export const AccordionPanel = ({children, id}) => (
-  <div>
-    {children}
-  </div>
-)
-AccordionHeader.propTypes = { id: PropTypes.oneOfType([
-  PropTypes.number,
-  PropTypes.string
-]).isRequired }
+export const AccordionPanel = ({children, id, onActive = () => null}) => {
+  onActive(id)
+  return (
+    <div>
+      {children}
+    </div>
+  )
+}
+AccordionHeader.propTypes = {
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  onActive: PropTypes.func
+}
