@@ -1,8 +1,16 @@
 import React, {PropTypes, Children, cloneElement} from 'react'
+import {elementType, validateAccordionChildren} from './helpers'
 
-import {intersectionArrays, arraysEqual} from '../utils'
+const containerStyle = {
+  display: 'flex',
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  bottom: 0
+}
 
-export const Accordion = ({opened = {}, onChange = () => null, children}) => {
+export const Accordion = ({opened = {}, onChange = () => null, children, style}) => {
+  const accordionStyle = {...containerStyle, ...style}
   const array = Children.toArray(children)
   const filteredChildren = array
     .map(child => {
@@ -20,7 +28,7 @@ export const Accordion = ({opened = {}, onChange = () => null, children}) => {
       }
     })
   return (
-    <div>
+    <div style={accordionStyle} className='accordion'>
       {filteredChildren}
     </div>
   )
@@ -34,62 +42,27 @@ Accordion.propTypes = {
   }
 }
 
-export const validateAccordionChildren = (children, accordionName) => {
-  const acceptedTypes = [AccordionHeader.name, AccordionPanel.name]
-  const fail = areAccordionItems(children, acceptedTypes, accordionName)
-  if (fail) return fail
-  return matchingAccordionItems(children, acceptedTypes, accordionName)
+const headerStyle = {
+  width: '2em'
 }
 
-const areAccordionItems = (children, acceptedTypes, accordionName) => {
-  let error
-  Children.forEach(children, child => {
-    if (error) return
-    if (acceptedTypes.indexOf(elementType(child)) === -1) {
-      error = new Error(
-        `Component ${accordionName} only accepts children of types ${acceptedTypes.join(', ')}`
-      )
-    }
-  })
-  return error
-}
-
-const matchingAccordionItems = (children, acceptedTypes, accordionName) => {
-  let error
-  const ids = new Map(acceptedTypes.map(type => [type, new Set()]))
-  Children.forEach(children, child => {
-    if (error) return
-    const type = elementType(child)
-    const id = child.props.id
-    if (['string', 'number'].indexOf(typeof id) !== -1) {
-      if (ids.get(type).has(id)) {
-        error = new Error(
-          `Component ${accordionName} has duplicate ${type} children with the same id (${id}). Ids must be unique.`
-        )
-      } else {
-        ids.get(type).add(id)
-      }
-    }
-  })
-  const idsByTypes = acceptedTypes.map(type => [...ids.get(type)])
-  if (!arraysEqual(intersectionArrays(...idsByTypes), idsByTypes[0])) {
-    error = new Error(
-      `The ids of the children of component ${accordionName} are not matched. There must be a component with the same id for each of the following types: ${acceptedTypes.join(', ')}`
-    )
-  }
-  return error
-}
-
-// Get the type of a React element
-// Works with strings, React Components defined with React.createClass, as an ES6 class or as a functional component
-const elementType = (component) => {
-  if (!component.type) return typeof component
-  return component.type.name || component.type
-}
-
-export const AccordionHeader = ({children, id, onChange, disabled}) => (
-  <div onClick={() => disabled ? null : onChange(id)}>
-    {children}
+export const AccordionHeader = ({children, id, onChange, disabled, style}) => (
+  <div
+    className='header'
+    onClick={() => disabled ? null : onChange(id)}
+    style={{...headerStyle, ...style}}
+  >
+    <div
+      className='wrapper'
+      style={{
+        display: 'inline-block',
+        transform: 'translate(2em) rotate(90deg)',
+        transformOrigin: '0 0 0',
+        padding: '0.5em'
+      }}
+    >
+      {children}
+    </div>
   </div>
 )
 AccordionHeader.propTypes = {
@@ -100,15 +73,15 @@ AccordionHeader.propTypes = {
   disabled: PropTypes.bool
 }
 
-export const AccordionPanel = ({children, id, onActive = () => null}) => {
+export const AccordionPanel = ({children, id, onActive = () => null, style}) => {
   onActive(id)
   return (
-    <div>
+    <div style={style} className='panel'>
       {children}
     </div>
   )
 }
-AccordionHeader.propTypes = {
+AccordionPanel.propTypes = {
   id: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string

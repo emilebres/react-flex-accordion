@@ -5,7 +5,8 @@ import test from 'tape'
 import React from 'react'
 import {shallow, mount} from 'enzyme'
 
-import {Accordion, AccordionHeader, AccordionPanel, validateAccordionChildren} from './FlexAccordion'
+import {Accordion, AccordionHeader, AccordionPanel} from './FlexAccordion'
+import {validateAccordionChildren} from './helpers'
 
 test('self closing accordion renders with no children', t => {
   const wrapper = shallow(<Accordion />)
