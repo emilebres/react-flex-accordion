@@ -15,7 +15,7 @@ ES6, CommonJS, and UMD builds are available with each distribution.
 For example:
 
 ```js
-import FlexAccordion from 'react-flex-accordion'
+import {Accordion, AccordionHeader, AccordionPanel} from 'react-flex-accordion'
 ```
 
 Alternately you can load a global-friendly UMD build:
@@ -29,7 +29,7 @@ FlexAccordion is a controlled component. You pass _react-flex-accordion_ headers
 
 ```js
 import React, { Component } from 'react'
-import FlexAccordion from 'react-flex-accordion'
+import {Accordion, AccordionHeader, AccordionPanel} from 'react-flex-accordion'
 
 export default class FlexAccordionExample extends Component {
 
