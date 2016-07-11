@@ -1,6 +1,6 @@
 {
   "name": "react-flex-accordion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Flex accordion component in React",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
