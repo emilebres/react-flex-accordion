@@ -1,5 +1,5 @@
 {
-  "name": "flex_accordion",
+  "name": "react-flex-accordion",
   "version": "1.0.0",
   "description": "Flex accordion component in React",
   "main": "index.js",
