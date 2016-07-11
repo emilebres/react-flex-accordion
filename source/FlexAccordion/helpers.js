@@ -15,7 +15,7 @@ const areAccordionItems = (children, acceptedTypes, accordionName) => {
     if (error) return
     if (acceptedTypes.indexOf(elementType(child)) === -1) {
       error = new Error(
-        `Component ${accordionName} only accepts children of types ${acceptedTypes.join(', ')}`
+        `Component ${accordionName} only accepts children of types ${acceptedTypes.join(', ')}, got ${elementType(child)}.`
       )
     }
   })
