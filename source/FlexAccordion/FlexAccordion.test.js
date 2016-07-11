@@ -180,16 +180,41 @@ test('accordion with numbers and strings as id', t => {
       <AccordionPanel id={0}>
         Panel0
       </AccordionPanel>
-      <AccordionHeader id={'foo'}>
+      <AccordionHeader id='foo'>
         Header foo
       </AccordionHeader>
-      <AccordionPanel id={'foo'}>
+      <AccordionPanel id='foo'>
         Panel foo
       </AccordionPanel>
     </Accordion>
   )
   t.equal(wrapper.find(AccordionHeader).length, 2, 'headers are present')
   t.equal(wrapper.find(AccordionPanel).length, 1, 'closed panel is not present')
+  t.end()
+})
+
+test('accordion items are displayed in the correct order', t => {
+  const wrapper = shallow(
+    <Accordion opened={{0: true, 1: true}}>
+      <AccordionHeader id={0}>
+        Header0
+      </AccordionHeader>
+      <AccordionPanel id={0}>
+        Panel0
+      </AccordionPanel>
+      <AccordionHeader id={1}>
+        Header foo
+      </AccordionHeader>
+      <AccordionPanel id={1}>
+        Panel foo
+      </AccordionPanel>
+    </Accordion>
+  )
+  t.equal(wrapper.children().length, 4, 'all children are present')
+  t.equal(wrapper.childAt(0).is(AccordionHeader), true, 'first child is header')
+  t.equal(wrapper.childAt(1).is(AccordionPanel), true, 'second child is panel')
+  t.equal(wrapper.childAt(2).is(AccordionHeader), true, 'third child is header')
+  t.equal(wrapper.childAt(3).is(AccordionPanel), true, 'fourth child is panel')
   t.end()
 })
 

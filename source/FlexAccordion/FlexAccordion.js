@@ -4,16 +4,24 @@ import {intersectionArrays, arraysEqual} from '../utils'
 
 export const Accordion = ({opened = {}, onChange = () => null, children}) => {
   const array = Children.toArray(children)
-  const headers = array
-    .filter(child => elementType(child) === AccordionHeader.name)
-    .map(header => cloneElement(header, {onChange}))
-  const openedPanels = array
-    .filter(child => elementType(child) === AccordionPanel.name)
-    .filter(panel => opened[panel.props.id])
+  const filteredChildren = array
+    .map(child => {
+      switch (elementType(child)) {
+        case AccordionHeader.name:
+          return cloneElement(child, {onChange})
+        case AccordionPanel.name:
+          if (opened[child.props.id]) {
+            return child
+          } else {
+            return null
+          }
+        default:
+          return child
+      }
+    })
   return (
     <div>
-      {headers}
-      {openedPanels}
+      {filteredChildren}
     </div>
   )
 }
