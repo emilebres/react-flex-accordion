@@ -43,17 +43,18 @@ Accordion.propTypes = {
 }
 
 const headerStyle = {
-  width: '2em'
+  width: '2em',
+  cursor: 'pointer'
 }
 
 export const AccordionHeader = ({children, id, onChange, disabled, style}) => (
   <div
-    className='header'
+    className='header-container'
     onClick={() => disabled ? null : onChange(id)}
     style={{...headerStyle, ...style}}
   >
     <div
-      className='wrapper'
+      className='header'
       style={{
         display: 'inline-block',
         transform: 'translate(2em) rotate(90deg)',
