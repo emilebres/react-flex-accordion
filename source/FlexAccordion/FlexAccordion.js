@@ -16,7 +16,7 @@ export const Accordion = ({opened = {}, onChange = () => null, children, style})
     .map(child => {
       switch (elementType(child)) {
         case AccordionHeader.name:
-          return cloneElement(child, {onChange})
+          return cloneElement(child, {_onChange: onChange})
         case AccordionPanel.name:
           if (opened[child.props.id]) {
             return child
@@ -47,11 +47,11 @@ const headerStyle = {
   cursor: 'pointer'
 }
 
-export const AccordionHeader = ({children, id, onChange, disabled, style}) => (
+export const AccordionHeader = ({children, id, _onChange, disabled, style, disabledStyle}) => (
   <div
     className='header-container'
-    onClick={() => disabled ? null : onChange(id)}
-    style={{...headerStyle, ...style}}
+    onClick={() => disabled ? null : _onChange(id)}
+    style={{...headerStyle, ...disabled ? disabledStyle : style}}
   >
     <div
       className='header'

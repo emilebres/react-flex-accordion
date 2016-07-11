@@ -1,0 +1,9 @@
+build
+coverage
+docs
+source
+.*
+*.md
+.travis.yml
+index.html
+webpack.config.js
