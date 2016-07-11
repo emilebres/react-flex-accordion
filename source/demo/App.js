@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {FlexAccordionExample} from '../FlexAccordion'
+import {FlexAccordionExample} from '../FlexAccordion/FlexAccordion.example'
 
 const styles = {
   header: {

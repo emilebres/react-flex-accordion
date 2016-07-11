@@ -1,4 +1,4 @@
-import {setupDom} from '../utils/jsdomSetup'
+import {setupDom} from '../../utils/jsdomSetup'
 setupDom()
 
 import test from 'tape'
