@@ -67,7 +67,7 @@
     "standard": "^7.1.2",
     "tap-difflet": "^0.6.0",
     "tape": "^4.6.0",
-    "watch": "^0.19.1",
+    "watch": "^0.19.3",
     "webpack": "^2.1.0-beta.15",
     "webpack-dev-server": "^2.1.0-beta.0"
   },
