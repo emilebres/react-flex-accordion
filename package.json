@@ -57,7 +57,7 @@
     "codecov": "^1.0.1",
     "cross-env": "^2.0.0",
     "enzyme": "^2.4.0",
-    "gh-pages": "^0.11.0",
+    "gh-pages": "^0.12.0",
     "html-webpack-plugin": "^2.22.0",
     "jsdom": "^9.4.1",
     "nyc": "^7.0.0",
