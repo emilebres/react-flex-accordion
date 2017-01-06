@@ -38,7 +38,7 @@
   "repository": "https://github.com/emilebres/react-flex-accordion",
   "dependencies": {
     "react": "^15.2.0",
-    "react-dom": "^15.2.0"
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
