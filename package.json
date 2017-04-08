@@ -37,7 +37,7 @@
   "license": "ISC",
   "repository": "https://github.com/emilebres/react-flex-accordion",
   "dependencies": {
-    "react": "^15.2.0",
+    "react": "^15.5.3",
     "react-dom": "^15.2.0"
   },
   "devDependencies": {
